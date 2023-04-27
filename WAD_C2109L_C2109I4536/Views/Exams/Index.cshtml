@@ -1,0 +1,69 @@
+﻿
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+@model IPagedList<WAD_C2109L_C2109I4536.Models.Exam>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@using (Html.BeginForm("Index", "Exams"))
+{
+    <table>
+    <tr>
+        <td> Sreach Student</td>
+        <td> <input type="text" name="search" value="@ViewBag.Search" /></td>
+        <td>Subject</td>
+        <td>@Html.DropDownList("SubjectId",ViewBag.Subjects as IEnumerable<SelectListItem>)</td>
+        <td><input type="submit" value="Search" /></td>
+    </tr>
+   </table>
+}
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Student
+            </th>
+            <th>
+                Subject
+            </th>
+            <th>
+                Mark
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mark)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {  studentId = item.StudentId , subjectId = item.SubjectId }) |
+                    @Html.ActionLink("Details", "Details", new { studentId = item.StudentId , subjectId = item.SubjectId }) |
+                    @Html.ActionLink("Delete", "Delete", new { studentId = item.StudentId , subjectId = item.SubjectId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    @Html.PagedListPager(Model, page => Url.Action("Index" , new {page}))
+</div>
